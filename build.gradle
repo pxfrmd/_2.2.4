@@ -1,0 +1,44 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.example'
+version = '1.0'
+
+
+
+application {
+    mainClass = 'org.example.Main'
+}
+
+tasks.register('archiveReports', Zip) {
+    from layout.buildDirectory.dir("reports")
+    destinationDirectory = layout.buildDirectory.dir('archive')
+    archiveBaseName =  new SimpleDateFormat("yyyy.MM.dd").format(new Date()) + ".zip"
+    doLast {
+        println archiveFileName.get()
+    }
+}
+
+tasks.register('cleanReports', Delete) {
+    delete fileTree(layout.buildDirectory.dir("archive")) {
+        include '**/*.zip'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
