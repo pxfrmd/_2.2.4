@@ -17,7 +17,7 @@ application {
 tasks.register('archiveReports', Zip) {
     from layout.buildDirectory.dir("reports")
     destinationDirectory = layout.buildDirectory.dir('archive')
-    archiveBaseName =  new SimpleDateFormat("yyyy.MM.dd").format(new Date()) + ".zip"
+    archiveBaseName =  new SimpleDateFormat("yyyy.MM.dd HH.MM.SS").format(new Date()) + ".zip"
     doLast {
         println archiveFileName.get()
     }
